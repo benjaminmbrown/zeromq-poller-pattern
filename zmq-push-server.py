@@ -65,4 +65,14 @@ def worker(port_push, port_sub):
 			string = socket_sub.recv()
 			topic,messagedata = string.split()
 			print "Processing ... ", topic, messagedata
-			
+
+if __name__ == "__main__":
+	#run a few servers
+	server_push_port = "5556"
+	server_pub_port = "5558"
+
+	Process(target=push_server, args=(server_push_port,)).start()
+	Process(target=publishing_server, args=(server_pub_port,)).start()
+	Process(target=client, args=(server_push_port,server_pub_port,)).start()
+
+
