@@ -17,3 +17,17 @@ def push_server(port="5556"):
 			socket.send("Exit")
 			break
 		time.sleep(1)
+
+def publishing_server(port="5558"):
+	
+	context = zmq.Context()
+	socket = context.socket(zmq.PUB)
+	socket.bind("tcp://*:%s" % port)
+	publisher_id = random.randrange(0,9999)
+
+	for reqnum in range(100):
+		topic = ranomd.randrange(8,10)
+		messagedata = "server#%s" % (topic, messagedata)
+		print "%s %s" % (topic, messagedata)
+		socket.send("%d %s" % (topic, messagedata))
+		time.sleep(1)
